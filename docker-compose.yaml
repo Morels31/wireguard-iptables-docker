@@ -1,0 +1,32 @@
+services:
+  wg-client:
+    container_name: wg-client
+    build: .
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8080:80  #optional
+    volumes:
+      - ./iptables:/etc/iptables
+      - ./wireguard:/etc/wireguard
+      - /usr/bin/true:/usr/bin/sysctl
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+  test-curl:  #showcase
+    container_name: test-curl
+    image: curlimages/curl
+    network_mode: "service:wg-client"
+    depends_on:  #waits wg-client startup script end
+      wg-client:
+        condition: service_healthy
+    command: sh -c "while true; do echo $(curl -sf https://ifconfig.me/ip); sleep 30; done"
+
+  test-website:  #showcase
+    container_name: test-website
+    image: httpd
+    depends_on:  #waits wg-client startup script end
+      wg-client:
+        condition: service_healthy
+    network_mode: "service:wg-client"
