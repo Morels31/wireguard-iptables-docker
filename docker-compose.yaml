@@ -1,7 +1,7 @@
 services:
   wg-client:
     container_name: wg-client
-    build: .
+    image: ghcr.io/morels31/wireguard-iptables-docker:main
     cap_add:
       - NET_ADMIN
     ports:
