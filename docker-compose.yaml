@@ -7,8 +7,7 @@ services:
     ports:
       - 8080:80  #optional
     volumes:
-      - ./iptables:/etc/iptables
-      - ./wireguard:/etc/wireguard
+      - ./config:/config
       - /usr/bin/true:/usr/bin/sysctl
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
