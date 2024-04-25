@@ -9,9 +9,6 @@
 :OUTPUT DROP [0:0]
 -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 #The rule below is only needed if the connected containers needs to be reached from LAN.
-#Seen that the in the container routing table its present only its default gateway,
-#only packets sent by the host receive successfully a response.
-#so a "-j MASQUERADE" iptables rule is needed to packets being routed to the container.
 -A INPUT -i eth0 -p tcp -m tcp --dport 80 -j ACCEPT
 -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 -A OUTPUT -o wg0 -j ACCEPT
