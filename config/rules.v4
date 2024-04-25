@@ -8,10 +8,12 @@
 :FORWARD DROP [0:0]
 :OUTPUT DROP [0:0]
 -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
 #The rule below is only needed if the connected containers needs to be reached from LAN.
 -A INPUT -i eth0 -p tcp -m tcp --dport 80 -j ACCEPT
 -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 -A OUTPUT -o wg0 -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
 -A OUTPUT -o eth0 -p udp -m udp --dport 51820 -j ACCEPT
 #More strict rule
 #-A OUTPUT -d DESTINATION_IP -o eth0 -p udp -m udp --dport 51820 -j ACCEPT
