@@ -29,3 +29,4 @@ services:
       wg-client:
         condition: service_healthy
     network_mode: "service:wg-client"
+
